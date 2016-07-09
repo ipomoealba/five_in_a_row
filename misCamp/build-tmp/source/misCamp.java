@@ -18,12 +18,13 @@ public class misCamp extends PApplet {
 boolean whoGetChess = true;
 
 // \u5132\u5b58\u68cb\u76e4\u5404\u4f4d\u7f6e\u984f\u8272
-int checkerboard[][] = new int[9][9];
+int checkerboard[][] = new int[10][10];
 
 // \u8a08\u7b97\u9023\u7e8c\u68cb\u5b50\u6578
 int countCheerX = 0;  //  X\u8ef8
 int countCheerY = 0;  //  Y\u8ef8
-int countCheerS = 0;  //  \u659c\u5411
+int countCheerS = 0;  //  \u53f3\u659c\u5411
+int countCheerL = 0;  //  \u5de6\u659c\u5411
 
 // \u521d\u59cb\u8a2d\u5b9a
 public void setup() {
@@ -140,106 +141,111 @@ public void judge(){
       compareX(0,i);
       compareY(i,0);
       compareS(i,0);
+      compareL(9-i,0);
     }
 
   countCheerX = 0;
   countCheerY = 0;
   countCheerS = 0;
+  countCheerL = 0;
 }
 
 public void compareX(int i , int j){
-
-  if(i < 8 && j < 8){
-
+  if(i < 8 && j < 9){
     if(checkerboard[i][j] != 0){
-
       if(checkerboard[i][j] == checkerboard[i+1][j]){
-
         countCheerX++;
         winner();
         compareX(i+1,j);
-
       }else {
-
-        if(i+1 < 8){
-
+        if(i+1 < 9){
           countCheerX = 0;
           compareX(i+1,j);
-
         }else{
-
           countCheerX = 0;
-
         }
       }
     }else {
-
        compareX(i+1,j);
+    }
+  }
+}
 
+public void compareY(int i , int j){
+  if(j < 8 && i < 9){
+     if(checkerboard[i][j] != 0){
+      if(checkerboard[i][j] == checkerboard[i][j+1] ){
+          countCheerY++;
+          winner();
+          compareY(i,j+1);
+      }else{
+        if(j+1 < 9){
+          countCheerY = 0;
+          compareY(i,j+1);
+        }else {
+          countCheerY = 0;
+        }
+      }
+    }else {
+      compareY(i,j+1);
     }
   }
 }
 
 public void compareS(int i,int j){
-
-  if(j < 8 && i < 8){
+  // \u6311\u6230\u984c
+  if(i < 8 && j < 8){
     if(checkerboard[i][j] != 0){
-      if (checkerboard[i][j] == checkerboard[i+1][j+1]) {
+      if(checkerboard[i][j] == checkerboard[i+1][j+1]){
         countCheerS++;
         winner();
         compareS(i+1,j+1);
-      }else {
-        if(j+1 < 8 && i+1 < 8){
+      }else{
+        if(i + 1 < 9 && j + 1 < 9){
           countCheerS = 0;
           compareS(i+1,j+1);
-        }else {
+        }else{
           countCheerS = 0;
         }
       }
-    }else {
-      compareS(i+1,j+1);
+    }else{  
+      countCheerS = 0;
+      compareS(i,j+1);  
     }
   }
 }
-public void compareY(int i , int j){
 
-  if(j < 8 && i < 8){
-     if(checkerboard[i][j] != 0){
-      if(checkerboard[i][j] == checkerboard[i][j+1] ){
-
-          countCheerY++;
-          winner();
-          compareY(i,j+1);
+public void compareL(int i, int j){
+  if(i < 10 && j < 8 ){
+    if(i > 0 && checkerboard[i][j] != 0){
+      if(checkerboard[i][j] == checkerboard[i-1][j+1]){
+        println("s:");
+        countCheerL++;
+        winner();
+        compareL(i-1,j+1);
 
       }else{
-
-        if(j+1 < 8){
-
-          countCheerY = 0;
-          compareY(i,j+1);
-
+        if(i - 1 > 0 && j + 1 < 9){
+          countCheerL = 0;
+          compareL(i-1,j+1);
         }else {
-
-          countCheerY = 0;
-
+          countCheerL = 0;
         }
       }
     }else {
-
-      compareY(i,j+1);
-
+      countCheerL = 0;
+      compareL(i-1,j+1);
     }
   }
 }
 
 public void winner(){
-
-  if(countCheerX > 3 || countCheerY > 3){
-
-     background(0);
-
-  }else if(countCheerS > 3) {
+  if(countCheerX > 3){
+    background(0);
+  }else if(countCheerS > 3 || countCheerL > 3) {
     background(255);
+  }else if (countCheerY > 3) {
+    background(107);  
   }
 
 }

@@ -2,12 +2,13 @@
 boolean whoGetChess = true;
 
 // 儲存棋盤各位置顏色
-int checkerboard[][] = new int[9][9];
+int checkerboard[][] = new int[10][10];
 
 // 計算連續棋子數
 int countCheerX = 0;  //  X軸
 int countCheerY = 0;  //  Y軸
-int countCheerS = 0;  //  斜向
+int countCheerS = 0;  //  右斜向
+int countCheerL = 0;  //  左斜向
 
 // 初始設定
 void setup() {
@@ -124,88 +125,111 @@ void judge(){
       compareX(0,i);
       compareY(i,0);
       compareS(i,0);
+      compareL(9-i,0);
     }
 
   countCheerX = 0;
   countCheerY = 0;
   countCheerS = 0;
+  countCheerL = 0;
 }
 
 void compareX(int i , int j){
-
-  if(i < 8 && j < 8){
-
+  if(i < 8 && j < 9){
     if(checkerboard[i][j] != 0){
-
       if(checkerboard[i][j] == checkerboard[i+1][j]){
-
         countCheerX++;
         winner();
         compareX(i+1,j);
-
       }else {
-
-        if(i+1 < 8){
-
+        if(i+1 < 9){
           countCheerX = 0;
           compareX(i+1,j);
-
         }else{
-
           countCheerX = 0;
-
         }
       }
     }else {
-
        compareX(i+1,j);
+    }
+  }
+}
 
+void compareY(int i , int j){
+  if(j < 8 && i < 9){
+     if(checkerboard[i][j] != 0){
+      if(checkerboard[i][j] == checkerboard[i][j+1] ){
+          countCheerY++;
+          winner();
+          compareY(i,j+1);
+      }else{
+        if(j+1 < 9){
+          countCheerY = 0;
+          compareY(i,j+1);
+        }else {
+          countCheerY = 0;
+        }
+      }
+    }else {
+      compareY(i,j+1);
     }
   }
 }
 
 void compareS(int i,int j){
   // 挑戰題
+  if(i < 8 && j < 8){
+    if(checkerboard[i][j] != 0){
+      if(checkerboard[i][j] == checkerboard[i+1][j+1]){
+        countCheerS++;
+        winner();
+        compareS(i+1,j+1);
+      }else{
+        if(i + 1 < 9 && j + 1 < 9){
+          countCheerS = 0;
+          compareS(i+1,j+1);
+        }else{
+          countCheerS = 0;
+        }
+      }
+    }else{  
+      countCheerS = 0;
+      compareS(i,j+1);  
+    }
+  }
 }
-void compareY(int i , int j){
 
-  if(j < 8 && i < 8){
-     if(checkerboard[i][j] != 0){
-      if(checkerboard[i][j] == checkerboard[i][j+1] ){
-
-          countCheerY++;
-          winner();
-          compareY(i,j+1);
+void compareL(int i, int j){
+  if(i < 10 && j < 8 ){
+    if(i > 0 && checkerboard[i][j] != 0){
+      if(checkerboard[i][j] == checkerboard[i-1][j+1]){
+        println("s:");
+        countCheerL++;
+        winner();
+        compareL(i-1,j+1);
 
       }else{
-
-        if(j+1 < 8){
-
-          countCheerY = 0;
-          compareY(i,j+1);
-
+        if(i - 1 > 0 && j + 1 < 9){
+          countCheerL = 0;
+          compareL(i-1,j+1);
         }else {
-
-          countCheerY = 0;
-
+          countCheerL = 0;
         }
       }
     }else {
-
-      compareY(i,j+1);
-
+      countCheerL = 0;
+      compareL(i-1,j+1);
     }
   }
 }
 
 void winner(){
-
-  if(countCheerX > 3 || countCheerY > 3){
-
-     background(0);
-
-  }else if(countCheerS > 3) {
+  if(countCheerX > 3){
+    background(0);
+  }else if(countCheerS > 3 || countCheerL > 3) {
     background(255);
+  }else if (countCheerY > 3) {
+    background(107);  
   }
 
 }
