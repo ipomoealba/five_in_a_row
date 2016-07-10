@@ -18,11 +18,6 @@ void setup() {
   // 背景色
   background(217,170,116);
 
-}
-
-// 不斷更新
-void draw() {
-
   // 畫棋盤
   for(int i = 0; i < 9; i++){
     // 設定粗度
@@ -32,6 +27,13 @@ void draw() {
     // 直線
     line(50+50*i , 50,50+50*i,450);
   }
+
+}
+
+// 不斷更新
+void draw() {
+
+
 
 }
 
@@ -192,9 +194,9 @@ void compareS(int i,int j){
           countCheerS = 0;
         }
       }
-    }else{  
+    }else{
       countCheerS = 0;
-      compareS(i,j+1);  
+      compareS(i,j+1);
     }
   }
 }
@@ -229,7 +231,7 @@ void winner(){
   }else if(countCheerS > 3 || countCheerL > 3) {
     background(255);
   }else if (countCheerY > 3) {
-    background(107);  
+    background(107);
   }
 
 }

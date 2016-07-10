@@ -208,9 +208,9 @@ public void compareS(int i,int j){
           countCheerS = 0;
         }
       }
-    }else{  
+    }else{
       countCheerS = 0;
-      compareS(i,j+1);  
+      compareS(i,j+1);
     }
   }
 }
@@ -245,7 +245,7 @@ public void winner(){
   }else if(countCheerS > 3 || countCheerL > 3) {
     background(255);
   }else if (countCheerY > 3) {
-    background(107);  
+    background(107);
   }
 
 }
